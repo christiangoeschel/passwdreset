@@ -35,7 +35,7 @@ diskname="$(grep "$biggest_disk_size" disklistfile.txt | grep "G" | cut -d "G" -
 #echo $diskname
 
 echo "Mounting main partition ..."
-sleep 2
+sleep 1
 #Creation of the mount point and mounting of the primary partition
 mkdir -p /mnt/$diskname
 mount /dev/$diskname /mnt/$diskname
