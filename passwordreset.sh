@@ -1,42 +1,52 @@
 #!/bin/bash
-#Password Reset Script for OVHcloud VPS running Linux Debian
-
-###VARIABLE DECLERATION
 #
-diskname="" #The final diskname that has been determined as main partition
-username="" #User defined username that he uses on his main OS
+#Password reset Script for the following issue
+#https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
+#Author: Christian Goeschel Ndjomouo
+#Version:1.0
+
+
+##VARIABLE DECLERATION
+#
+diskname="" #The determined main partition
+username="" #Username that the customer uses on his main OS
 highest_disksize_cache=0 #The highest disk size of all the potential disks/partitions
 
+#Creation and permission assignment of all temporary files that contain the partition names and sizes
+sudo touch disklistfile.txt && sudo chmod 777 disklistfile.txt
+sudo touch disk_sizes.txt && sudo chmod 777 disk_sizes.txt
 
-#Creation and writing of a file that contains the disks and partitions
-sudo touch disklistfile.txt
-sudo chmod 777 disklistfile.txt
-sudo touch disk_sizes.txt
-sudo chmod 777 disk_sizes.txt
-
-echo "This script will help you reset your root password and gain back access to your VPS"
+#Start of script output
 echo ""
-
+echo "###################################################################################"
+echo "This Bash script will handle the identification and mounting of your main partition"
+echo "and help you update/reset your root password."
+echo ""
+echo ""
 echo "Analyzing filesystem and determining the main partition ..."
 sleep 2
-#Listing all partitions and extracting most relevant ones to determine the OS' partition based on the biggest size in Gigabytes
+
+#lsblk lists all partitions, this output is stored in a txt file temporarily for later processing 
 lsblk > disklistfile.txt
 
 
-#Grabbing the partition size of each potential partition
+#Extracting the partition size of each partition to which the algorithm below applies to 
+#Only the partitions that have a partition size measured in Gigabytes are being considered
+#The results are stored in a seperate temporary txt file
 ( sudo grep "part" disklistfile.txt | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 > disk_sizes.txt )
 
-#Determines the biggest partition size and saves it in a variable
+#The variable that has the value of the biggest partition size 
 biggest_disk_size="$(sort -n -r disk_sizes.txt | head -1 | cut -d " " -f 2)"
-#echo $biggest_disk_size
 
 #Searching for the partition name that corresponds to the biggest patition size, extracting its name and saving it in a variable
 diskname="$(grep "$biggest_disk_size" disklistfile.txt | grep "G" | cut -d "G" -f 1 | cut -d " " -f 1 | tr -cd '[:alnum:]')"
-#echo $diskname
 
-echo "Mounting main partition ..."
+
+echo "Identified main partition: /dev/"$diskname
+echo "Mounting main partition /dev/"$diskname" to /mnt/"$diskname
 sleep 1
-#Creation of the mount point and mounting of the primary partition
+
+#Creation of the mount point directory and mounting of the primary partition
 mkdir -p /mnt/$diskname
 mount /dev/$diskname /mnt/$diskname
 echo "Mounted!"
@@ -47,41 +57,86 @@ sleep 1
 echo "Please type in the username for which you want to change the password:"
 read username
 
+#The customer is asked to type in their username in order to change the
+#correct user accounts password
+#This for loop runs 2 times which gives the customer a total of three attempts
+for attempt in `seq 1 3`;
+do
+
 #Checks whether the typed in username is in the /etc/passwd file
 username_found="$(cat /mnt/$diskname/etc/passwd | grep $username | cut -d ":" -f 1)"
 
-if [ "$username" == "$username_found" ]
+if [ "$username" == "$username_found" ];
 then
 
+echo ""
 echo "Thank you!"
+break 2
+
+elif [ "$attempt" == "3" ];
+then
+
+echo ""
+echo "We could not identify a user account with the username:" $username
+echo "Please make sure to find your username in your records or in the initial VPS installation email."
+echo "For further assistance please contact the OVHcloud technical support team."
+echo ""
+echo ""
+
+#Deletion of all temporary files
+echo "Deleting script related files ..."
+sleep 1
+rm disklistfile.txt
+rm disk_sizes.txt
+
+#Unmounting the main partition from the mount point
+echo "Unmounting /mnt/"$diskname" ..."
+sleep 2
+umount /mnt/$diskname
+
+#Stopping the script
+exit 130
 
 else
 
-echo "The username could not be found, please type in the correct username:"
+echo ""
+echo "The username could not be found!"
+
+#Outputs the amount of attempts that are left
+echo $(( 3 - $attempt ))" attempts left"
+echo "Please type in your username:"
 read username
 
 fi
 
-echo ""
+done
+
 #Password change announcement
+echo ""
+echo "##########################################################################################################"
 echo "You will now be asked to enter a new password and re-enter it. Please make sure to remember your password."
 sleep 2
-#Chroot in mounted partition
+
+#Chroot into mount point
 chroot /mnt/$diskname/ passwd $username
-
 echo ""
 echo ""
+sleep 1
 
-#Deletion of disklistfile.txt
+#Deletion of all temporary files
+echo "Deleting script related files ..."
+sleep 1
 rm disklistfile.txt
 rm disk_sizes.txt
 
-echo "Unmounting /dev/"$diskname" ..."
-sleep 2
-#Unmounting of 
+#Unmounting the main partition from the mount point
+echo "Unmounting /mnt/"$diskname" ..."
+sleep 1
 umount /mnt/$diskname
+
+#Final success message
 echo ""
-echo ""
-echo "Your root password has successfully been changed!"
+echo "YOUR ROOT PASSWORD HAS SUCCESSFULLY BEEN UPDATED!"
 echo "You can now reboot your server from your main partition in the OVHcloud control panel."
-echo "If you need further assistance feel free to contact us at any given time."
+echo "If you need further assistance feel free to contact the OVHcloud technical support."
+echo "######################################################################################"
