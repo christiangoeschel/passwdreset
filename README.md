@@ -29,7 +29,7 @@ Once you have received the credentials download the script:
 https://github.com/bysecurety/passwdreset/blob/main/passwordreset.sh
 </br>
 </br>
-Open a terminal / command line interface on your computer and paste the command down below to the terminal. 
+Open a terminal / command line interface on your computer and paste the command down below. 
 </br></br>
 Command:
 </br></br>
