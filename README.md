@@ -16,7 +16,6 @@ The only thing you will have to do is to type in your rescue mode password twice
 That's it!
 </br>
 </br>
-</br>
 <h2>Usage:</h2>
 Before you can use the Bash script you will have to boot your VPS in rescue mode first.
 You can do that in the OVHcloud control panel on your VPS'dashboard.
@@ -45,10 +44,12 @@ After that the script will be deployed and executed and you will simply have to 
 </br>
 If you have any questions or trouble feel free to contact the OVHcloud technical support or refer to the guides down below:
 </br></br>
-Changing password if you have lost it: </br></br>
+<h4>Changing password if you have lost it:</h4>
+</br></br>
 https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
 </br></br>
-How to boot into rescue mode:</br></br>
+<h4>How to boot into rescue mode:</h4>
+</br></br>
 https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password
 
 
