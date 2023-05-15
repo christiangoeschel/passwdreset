@@ -45,12 +45,9 @@ After that the script will be deployed and executed and you will simply have to 
 If you have any questions or trouble feel free to contact the OVHcloud technical support or refer to the guides down below:
 </br></br>
 <h4>Changing password if you have lost it:</h4>
-</br>
 https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
 </br>
 <h4>How to boot into rescue mode:</h4>
-</br>
-<a href="https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password" target="_blank">Guide</a>
-
+https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password
 
 
