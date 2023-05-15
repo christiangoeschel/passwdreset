@@ -24,14 +24,12 @@ After that you will receive temporary login credentials which you will need for 
 password change script.
 </br>
 </br>
-Once you have received the credentials download this script and open a terminal / command line interface on your computer.
+Once you have received the credentials download the script:
+</br>
+https://github.com/bysecurety/passwdreset/blob/main/passwordreset.sh
 </br>
 </br>
-Paste the command down below to the terminal. 
-</br></br>
-Change "VPS_IP" to your VPS' IPv4 address and make sure that the path to the downloaded script file is correct and change the "PATH/" in "PATH/passwordreset.sh" if necessary.
-</br></br>
-Now hit enter and let your computer execute the command.
+Open a terminal / command line interface on your computer and paste the command down below to the terminal. 
 </br></br>
 Command:
 </br></br>
@@ -39,6 +37,10 @@ Command:
 ` scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh" `
 </br>
 </br>
+Change "VPS_IP" to your VPS' IPv4 address and make sure that the path to the downloaded script file is correct and change the "PATH/" in "PATH/passwordreset.sh" if necessary.
+</br></br>
+Now hit enter and let your computer execute the command.
+</br></br>
 You will be asked to enter a password twice this will be the password for the rescue mode that you have previously received via email.
 After that the script will be deployed and executed and you will simply have to follow the few instructions and complete the password changing process.
 </br>
