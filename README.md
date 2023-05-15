@@ -36,7 +36,7 @@ Now hit enter and let your computer execute the command.
 </br></br>
 Command:
 </br></br>
-`scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh"`
+` scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh" `
 </br>
 </br>
 You will be asked to enter a password twice this will be the password for the rescue mode that you have previously received via email.
@@ -44,11 +44,11 @@ After that the script will be deployed and executed and you will simply have to 
 </br>
 </br>
 If you have any questions or trouble feel free to contact the OVHcloud technical support or refer to the guides down below:
-</br>
-Changing password if you have lost it:
+</br></br>
+Changing password if you have lost it: </br></br>
 https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
-</br>
-How to boot into rescue mode:
+</br></br>
+How to boot into rescue mode:</br></br>
 https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password
 
 
