@@ -50,7 +50,7 @@ https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm
 </br>
 <h4>How to boot into rescue mode:</h4>
 </br>
-https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password
+<a href="https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password" target="_blank">https://help.ovhcloud.com/csm/en-ca-vps-rescue?id=kb_article_view&sysparm_article=KB0047655#:~:text=Rescue%20mode%20is%20a%20tool,Resetting%20your%20root%20password</a>
 
 
 
