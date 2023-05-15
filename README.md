@@ -37,9 +37,9 @@ Command:
 ` scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh" `
 </br>
 </br>
-Change `"VPS_IP"` to your VPS' IPv4 address. 
+Change `VPS_IP` to your VPS' IPv4 address. 
 </br></br>
-`"PATH/passwordreset.sh"` stands for the path where the downloaded script is located. Make sure to change it to the correct one.
+`PATH/passwordreset.sh` stands for the path where the downloaded script is located. Make sure to change it to the correct one.
 </br></br>
 Now hit enter and let your computer execute the command.
 </br></br>
