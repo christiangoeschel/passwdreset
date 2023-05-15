@@ -1,6 +1,6 @@
 <img src="https://github.com/bysecurety/passwdreset/blob/main/OVHcloudVPSpasswdreset.jpg">
 
-# Changing your root password if you have lost it
+# Changing the root password of an OVHcloud VPS if you have lost it
 </br>
 </br>
 It can always happen that you lose or forget your root password and now are not able to SSH into your VPS and neither use the KVM from the OVHcloud control panel.
