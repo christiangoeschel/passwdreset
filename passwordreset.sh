@@ -10,7 +10,6 @@
 #
 diskname="" #The determined main partition
 username="" #Username that the customer uses on his main OS
-highest_disksize_cache=0 #The highest disk size of all the potential disks/partitions
 
 #Creation and permission assignment of all temporary files that contain the partition names and sizes
 sudo touch disklistfile.txt && sudo chmod 777 disklistfile.txt
