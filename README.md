@@ -18,7 +18,7 @@ That's it!
 </br>
 <h2>Usage:</h2>
 Before you can use the Bash script you will have to boot your VPS in rescue mode first.
-You can do that in the OVHcloud control panel on your VPS'dashboard.
+You can do that in the OVHcloud control panel on your VPS' dashboard.
 </br></br>
 After that you will receive temporary login credentials which you will need for the one line command that will deploy and launch the 
 password change script.
