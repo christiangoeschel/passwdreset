@@ -4,15 +4,15 @@
 </br>
 </br>
 It can always happen that you lose or forget your root password and now are not able to SSH into your VPS and neither use the KVM from the OVHcloud control panel.
-</br>
+</br></br>
 Eventhough, OVHcloud provides it's customers with a guide on how to fix the issue, sometimes things just have to be done very quickly 
 and without too much typing. Or maybe you have lost it for multiple VPSs and need a quick and fast solution.
-</br>
+</br></br>
 This is where the Bash script in this Git repo comes in handy. With just one command you can deploy the script to your VPS in rescue mode and 
 the script will handle the main partition detection, mount point creation, mounting and the password change. 
-</br>
+</br></br>
 The only thing you will have to do is to type in your rescue mode password twice, specify the username of your main OS (the account you lost the password for) and re-enter your password twice.
-</br>
+</br></br>
 That's it!
 </br>
 </br>
@@ -20,7 +20,7 @@ That's it!
 <h2>Usage:</h2>
 Before you can use the Bash script you will have to boot your VPS in rescue mode first.
 You can do that in the OVHcloud control panel on your VPS'dashboard.
-</br>
+</br></br>
 After that you will receive temporary login credentials which you will need for the one line command that will deploy and launch the 
 password change script.
 </br>
@@ -29,13 +29,13 @@ Once you have received the credentials download this script and open a terminal 
 </br>
 </br>
 Paste the command down below to the terminal. 
-</br>
+</br></br>
 Change "VPS_IP" to your VPS' IPv4 address and make sure that the path to the downloaded script file is correct and change the "PATH/" in "PATH/passwordreset.sh" if necessary.
-</br>
+</br></br>
 Now hit enter and let your computer execute the command.
-</br>
+</br></br>
 Command:
-</br>
+</br></br>
 `scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh"`
 </br>
 </br>
