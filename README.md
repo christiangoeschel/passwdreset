@@ -3,7 +3,7 @@
 # Changing the root password of an OVHcloud VPS if you have lost it
 </br>
 </br>
-It can always happen that you lose or forget your root password and now are not able to SSH into your VPS and neither use the KVM from the OVHcloud control panel.
+It can sometimes happen that you lose or forget your root password and now are not able to SSH into your VPS and neither use the KVM from the OVHcloud control panel.
 </br></br>
 Eventhough, OVHcloud provides it's customers with a guide on how to fix the issue, sometimes things just have to be done very quickly 
 and without too much typing. Or maybe you have lost it for multiple VPSs and need a quick and fast solution.
