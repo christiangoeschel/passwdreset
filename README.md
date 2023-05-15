@@ -35,7 +35,8 @@ Now hit enter and let your computer execute the command.
 </br></br>
 Command:
 </br></br>
-``` scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh" ```
+`'sudo chmod 777 PATH_TO_BASHSCRIPT/pingsweep-v02-0422-debian.sh'`
+` scp PATH/passwordreset.sh root@VPS_IP:/root && ssh root@VPS_IP "chmod 777 passwordreset.sh; source passwordreset.sh" `
 </br>
 </br>
 You will be asked to enter a password twice this will be the password for the rescue mode that you have previously received via email.
