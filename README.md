@@ -1,25 +1,19 @@
 <img src="https://github.com/bysecurety/passwdreset/blob/main/OVHcloudVPSpasswdreset.jpg">
 
-# PingSweeper™ v0.2 Alpha
+# Changing your root password if you have lost it
 </br>
 </br>
-PingSweeper™ by Securety is a Bash Script that can be used as an IP Network Scanning tool to map out a given 
-network subnet and detect any live/active hosts in it.
+It can always happen that you lose or forget your root password and now are not able to SSH into your VPS and neither use the KVM from the OVHcloud control panel.
 
-The applied technique is called ICMP sweeping or ping scanning and is combined with a free software for network discovery
-and security auditing called 'Nmap'. The script automates the port enumeration conducted by Nmap by iterating through all 
-the active hosts that have previously been detected during the ICMP sweep/Ping Sweep and passing them to Nmap which does the rest.
+OVHcloud provided it's customers with a guide on how to fix the issue but sometimes things just have to be done very quick 
+and without too much typing. Or maybe you have lost it for multiple VPSs and need a quick and fast solution.
 
-PingSweeper™ does not guarantee 100% accuracy due to the fact that certain hosts use access lists/firewall rules that deny ICMP requests 
-which will hide the host from PingSweeper. 
+This is where the Bash script in this Git repo comes in handy. With just one command you can deploy the script to your VPS in rescue mode and 
+the script will handle the main partition detection, mount point creation, mounting and the password change. 
 
-The script is still in it's early development stage and currently made available for testing, inspirational and educational purposes.
-As of now the script supports IPv4 /24 subnets only and is being developed on Kali Linux which is a Debian-based Linux distribution. 
-The script can still be altered and made compatible with other Linux or Mac OS systems.
+The only thing you will have to do is to type in your rescue mode password twice, specify the username of your main OS (the account you lost the password for) and re-enter your password twice.
 
-Later versions will come with more features, support for all subnet sizes, other OS and potentially ICMPv6 Sweeping capabilities as well.
-
-PingSweeper™ is OSS (Open-source software) and falls under the GNU General Public License v3.0.
+That's it!
 </br>
 </br>
 </br>
