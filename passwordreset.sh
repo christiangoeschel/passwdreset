@@ -3,54 +3,144 @@
 #Password reset Script for the following issue
 #https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
 #Author: Christian Goeschel Ndjomouo
-#Version:1.0
-
-
-##VARIABLE DECLERATION
-#
-diskname="" #The determined main partition
-username="" #Username that the customer uses on his main OS
-
-#Creation and permission assignment of all temporary files that contain the partition names and sizes
-sudo touch disklistfile.txt && sudo chmod 777 disklistfile.txt
-sudo touch disk_sizes.txt && sudo chmod 777 disk_sizes.txt
+#Version:1.1
 
 #Start of script output
 echo ""
-echo "###################################################################################"
-echo "This Bash script will handle the identification and mounting of your main partition"
-echo "and help you update/reset your root password."
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "|                                                                                  |"
+echo "|  This script will handle the identification and mounting of your main partition  |"
+echo "|  and help you update/reset your forgotten password.                              |"
+echo "|                                                                                  |"
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo ""
-echo ""
-echo "Analyzing filesystem and determining the main partition ..."
+echo "Starting..."
 sleep 2
 
-#lsblk lists all partitions, this output is stored in a txt file temporarily for later processing 
-lsblk > disklistfile.txt
 
+#Tune2fs package availability check, this tool will help to identify the main partition
 
-#Extracting the partition size of each partition to which the algorithm below applies to 
-#Only the partitions that have a partition size measured in Gigabytes are being considered
-#The results are stored in a seperate temporary txt file
-( sudo grep "part" disklistfile.txt | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 > disk_sizes.txt )
-
-#The variable that has the value of the biggest partition size 
-biggest_disk_size="$(sort -n -r disk_sizes.txt | head -1 | cut -d " " -f 2)"
-
-#Searching for the partition name that corresponds to the biggest patition size, extracting its name and saving it in a variable
-diskname="$(grep "$biggest_disk_size" disklistfile.txt | grep "G" | cut -d "G" -f 1 | cut -d " " -f 1 | tr -cd '[:alnum:]')"
-
-
-echo "Identified main partition: /dev/"$diskname
-echo "Mounting main partition /dev/"$diskname" to /mnt/"$diskname
-sleep 1
-
-#Creation of the mount point directory and mounting of the primary partition
-mkdir -p /mnt/$diskname
-mount /dev/$diskname /mnt/$diskname
-echo "Mounted!"
+t2fs=$(which tune2fs)
 echo ""
+echo "Checking for tune2fs..."
 sleep 1
+
+if [[ $t2fs == *"tune2fs"* ]];
+then
+
+echo ""
+echo "tune2fs already installed!"
+
+else
+
+echo ""
+echo "Installing tune2fs..."
+apt install e2fslibs -y
+sleep 1
+
+fi
+
+
+#Server type identification
+
+ip=$(ip -o a | grep -E 'eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d 't' -f 3 | cut -c 2-)
+server_name=$(dig -x $ip | grep -E 'ns|vps' | grep -E 'PTR' | cut -d 'R' -f 2)
+server_type=""
+
+
+for a in `seq 1 4`;
+do
+
+	if [[ $a == "3" ]];
+	then
+
+	echo "Too many ambigious inputs. Stopping script ..."
+	sleep 2
+	exit 0
+
+	elif [[ $server_name == *"vps"* ]];
+	then
+
+	server_type="Virtual Private Server (VPS)"
+	break
+
+	elif [[ $server_name == *"ns"* ]];
+	then
+
+	server_type="Dedicated Server"
+	break
+
+	else
+
+	echo "Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
+	read $server_type
+
+		if [[ $server_type == "V" ]];
+		then
+
+		server_type="Virtual Private Server (VPS)"
+		break
+
+		elif [[ $server_type == "D" ]];
+		then
+
+		server_type="Dedicated Server"
+		break
+
+		else
+		continue
+
+		fi
+	fi
+
+
+done
+
+echo ""
+echo "+++++++++++++++++++++++++++++++++++++"
+echo "|                                   |"
+echo "|  Server Name: $server_name        |"
+echo "|  IPv4 Address: $ip                |"
+echo "|  Server Type: $server_type        |"
+echo "|                                   |"
+echo "+++++++++++++++++++++++++++++++++++++"
+
+
+pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.1-9]')
+dsk_rslts=$( echo $pot_part | wc -l )
+
+echo "Here are the partitions that potentially store your main OS:"
+echo $pot_part
+
+
+for partitions in $(echo $pot_part);
+do
+
+
+mntpnt=$(tune2fs -l /dev/$partitions | grep 'mounted' | cut -d ":" -f 2)
+
+
+	if [[ $(echo $mntpnt) == "/" ]] || [[ $(echo $mntpnt) == *"/mnt"* ]];
+	then
+
+	echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions"
+
+	mkdir -p /mnt/$partitions
+	mount /dev/$partitions /mnt/$partitions
+	echo "Mounted!"
+	echo ""
+
+	sleep 1
+	break
+
+	else
+	continue
+
+	fi
+done
+
+echo ""
+echo ""
 
 #Username validation
 echo "Please type in the username for which you want to change the password:"
@@ -63,7 +153,7 @@ for attempt in `seq 1 3`;
 do
 
 #Checks whether the typed in username is in the /etc/passwd file
-username_found="$(cat /mnt/$diskname/etc/passwd | grep $username | cut -d ":" -f 1)"
+username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
 
 if [ "$username" == "$username_found" ];
 then
@@ -82,19 +172,13 @@ echo "For further assistance please contact the OVHcloud technical support team.
 echo ""
 echo ""
 
-#Deletion of all temporary files
-echo "Deleting script related files ..."
-sleep 1
-rm disklistfile.txt
-rm disk_sizes.txt
-
 #Unmounting the main partition from the mount point
-echo "Unmounting /mnt/"$diskname" ..."
+echo "Unmounting /mnt/"$partitions" ..."
 sleep 2
-umount /mnt/$diskname
+umount /mnt/$partitions
 
 #Stopping the script
-exit 130
+exit 1
 
 else
 
@@ -117,21 +201,15 @@ echo "You will now be asked to enter a new password and re-enter it. Please make
 sleep 2
 
 #Chroot into mount point
-chroot /mnt/$diskname/ passwd $username
+chroot /mnt/$partitions/ passwd $username
 echo ""
 echo ""
 sleep 1
-
-#Deletion of all temporary files
-echo "Deleting script related files ..."
-sleep 1
-rm disklistfile.txt
-rm disk_sizes.txt
 
 #Unmounting the main partition from the mount point
-echo "Unmounting /mnt/"$diskname" ..."
+echo "Unmounting /mnt/"$partitions" ..."
 sleep 1
-umount /mnt/$diskname
+umount /mnt/$partitions
 
 #Final success message
 echo ""
