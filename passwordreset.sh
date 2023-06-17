@@ -46,20 +46,24 @@ ip=$(ip -o a | grep -E 'eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d
 server_name=$(dig -x 142.4.216.28 | grep 'PTR' | cut -d 'R' -f 2 | tr -cd '[.a-zA-Z.0-9]')
 
 echo ""
-echo "+++++++++++++++++++++++++++++++++++++"
-echo "|                                   |"
-echo "|  Server Name: $server_name        |"
-echo "|  IPv4 Address: $ip                |"
-echo "|                                   |"
-echo "+++++++++++++++++++++++++++++++++++++"
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "|                                                           |"
+echo "|  Server Name: $server_name                                |"
+echo "|  IPv4 Address: $ip                                        |"
+echo "|                                                           |"
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 
 pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.0-9]')
 dsk_rslts=$( echo $pot_part | wc -l )
 
-echo "Here are the partitions that potentially store your main OS:"
-echo $pot_part
-
+echo ""
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo "|                                                                 |"
+echo "|  Here are the partitions that potentially store your main OS:   |"
+echo "|  $pot_part                                                      |"
+echo "|                                                                 |"
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 for partitions in $(echo $pot_part);
 do
@@ -70,82 +74,95 @@ mntpnt=$(tune2fs -l /dev/$partitions | grep 'mounted' | cut -d ":" -f 2)
 	if [[ $(echo $mntpnt) == "/" ]] || [[ $(echo $mntpnt) == *"/mnt"* ]];
 	then
 
-	echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions"
-
-	mkdir -p /mnt/$partitions
-	mount /dev/$partitions /mnt/$partitions
-	echo "Mounted!"
-	echo ""
-
-	sleep 1
-	break
+    		echo ""
+ 		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+		echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions ..."
+		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+ 
+		mkdir -p /mnt/$partitions
+		mount /dev/$partitions /mnt/$partitions
+		echo ""	
+ 		echo "MOUNTED!"
+		echo ""
+		sleep 1
+		break
 
 	else
-	continue
+		continue
 
 	fi
 done
 
 echo ""
-echo ""
 
 #Username validation
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "Please type in the username for which you want to change the password:"
 read username
 
 #The customer is asked to type in their username in order to change the
 #correct user accounts password
 #This for loop runs 2 times which gives the customer a total of three attempts
+
 for attempt in `seq 1 3`;
 do
 
 #Checks whether the typed in username is in the /etc/passwd file
-username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
+	username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
 
-if [ "$username" == "$username_found" ];
-then
+	if [ "$username" == "$username_found" ];
+	then
 
-echo ""
-echo "Thank you!"
-break 2
+		echo ""
+		echo "Thank you!"
+		break 2
 
-elif [ "$attempt" == "3" ];
-then
+	elif [ "$attempt" == "3" ];
+	then
 
-echo ""
-echo "We could not identify a user account with the username:" $username
-echo "Please make sure to find your username in your records or in the initial VPS installation email."
-echo "For further assistance please contact the OVHcloud technical support team."
-echo ""
-echo ""
+		echo "                                          FAILURE                                        "
+		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+		echo "|                                                                                       |"
+		echo "|  We could not identify a user account with the username:" $username                   |"
+		echo "|  Please make sure to find the username in your records or in the                      |"
+		echo "|  initial VPS installation email.                                                      |"
+  		echo "|                                                                                       |"
+  		echo "|  For further assistance please contact the OVHcloud technical support team."
+		echo "|                                                                                       |"
+		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-#Unmounting the main partition from the mount point
-echo "Unmounting /mnt/"$partitions" ..."
-sleep 2
-umount /mnt/$partitions
+		#Unmounting the main partition from the mount point
+		echo "Unmounting /mnt/"$partitions" ..."
+		sleep 2
+		umount /mnt/$partitions
+		
+		#Stopping the script
+		exit 1
 
-#Stopping the script
-exit 1
+	else
 
-else
+		echo ""
+		echo "The username could not be found!"
+		
+		#Outputs the amount of attempts that are left
+		echo $(( 3 - $attempt ))" attempts left"
+		echo "Please type in your username:"
+		read username
 
-echo ""
-echo "The username could not be found!"
-
-#Outputs the amount of attempts that are left
-echo $(( 3 - $attempt ))" attempts left"
-echo "Please type in your username:"
-read username
-
-fi
+	fi
 
 done
 
 #Password change announcement
+
 echo ""
-echo "##########################################################################################################"
-echo "You will now be asked to enter a new password and re-enter it. Please make sure to remember your password."
-sleep 2
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "You will now be asked to enter a new password and re-enter it."
+echo "Please make sure to remember your password."
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+sleep 1
 
 #Chroot into mount point
 chroot /mnt/$partitions/ passwd $username
@@ -160,7 +177,12 @@ umount /mnt/$partitions
 
 #Final success message
 echo ""
-echo "YOUR ROOT PASSWORD HAS SUCCESSFULLY BEEN UPDATED!"
-echo "You can now reboot your server from your main partition in the OVHcloud control panel."
-echo "If you need further assistance feel free to contact the OVHcloud technical support."
-echo "######################################################################################"
+echo "                                          SUCCESS                                        "
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "|                                                                                       |"
+echo "|  YOUR PASSWORD HAS SUCCESSFULLY BEEN UPDATED!                                         |"
+echo "|  You can now reboot your server from hard drive in the OVHcloud control panel.        |"
+echo "|  If you need further assistance feel free to contact the OVHcloud technical support.  |"
+echo "|                                                                                       |"
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
