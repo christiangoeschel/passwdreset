@@ -124,11 +124,11 @@ do
 		echo "                                          FAILURE                                        "
 		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 		echo "|                                                                                       |"
-		echo "|  We could not identify a user account with the username:" $username                   |"
+		echo "|  We could not identify a user account with the username: $username                    |"
 		echo "|  Please make sure to find the username in your records or in the                      |"
 		echo "|  initial VPS installation email.                                                      |"
   		echo "|                                                                                       |"
-  		echo "|  For further assistance please contact the OVHcloud technical support team."
+  		echo "|  For further assistance please contact the OVHcloud technical support team.           |"
 		echo "|                                                                                       |"
 		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
