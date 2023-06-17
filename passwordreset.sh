@@ -43,7 +43,7 @@ fi
 #Server information
 
 ip=$(ip -o a | grep -E 'eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d 't' -f 3 | cut -c 2-)
-server_name=$(dig -x $ip | grep "86400" | grep -E 'PTR' | cut -d 'R' -f 2)
+server_name=$(dig -x 142.4.216.28 | grep 'PTR' | cut -d 'R' -f 2 | tr -cd '[.a-zA-Z.0-9]')
 
 echo ""
 echo "+++++++++++++++++++++++++++++++++++++"
@@ -54,7 +54,7 @@ echo "|                                   |"
 echo "+++++++++++++++++++++++++++++++++++++"
 
 
-pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.1-9]')
+pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.0-9]')
 dsk_rslts=$( echo $pot_part | wc -l )
 
 echo "Here are the partitions that potentially store your main OS:"
