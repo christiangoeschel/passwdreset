@@ -40,68 +40,16 @@ sleep 1
 
 fi
 
-
-#Server type identification
+#Server information
 
 ip=$(ip -o a | grep -E 'eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d 't' -f 3 | cut -c 2-)
-server_name=$(dig -x $ip | grep -E 'ns|vps' | grep -E 'PTR' | cut -d 'R' -f 2)
-server_type=""
-
-
-for a in `seq 1 4`;
-do
-
-	if [[ $a == "3" ]];
-	then
-
-	echo "Too many ambigious inputs. Stopping script ..."
-	sleep 2
-	exit 0
-
-	elif [[ $server_name == *"vps"* ]];
-	then
-
-	server_type="Virtual Private Server (VPS)"
-	break
-
-	elif [[ $server_name == *"ns"* ]];
-	then
-
-	server_type="Dedicated Server"
-	break
-
-	else
-
-	echo "Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
-	read $server_type
-
-		if [[ $server_type == "V" ]];
-		then
-
-		server_type="Virtual Private Server (VPS)"
-		break
-
-		elif [[ $server_type == "D" ]];
-		then
-
-		server_type="Dedicated Server"
-		break
-
-		else
-		continue
-
-		fi
-	fi
-
-
-done
+server_name=$(dig -x $ip | grep "86400" | grep -E 'PTR' | cut -d 'R' -f 2)
 
 echo ""
 echo "+++++++++++++++++++++++++++++++++++++"
 echo "|                                   |"
 echo "|  Server Name: $server_name        |"
 echo "|  IPv4 Address: $ip                |"
-echo "|  Server Type: $server_type        |"
 echo "|                                   |"
 echo "+++++++++++++++++++++++++++++++++++++"
 
@@ -115,7 +63,6 @@ echo $pot_part
 
 for partitions in $(echo $pot_part);
 do
-
 
 mntpnt=$(tune2fs -l /dev/$partitions | grep 'mounted' | cut -d ":" -f 2)
 
