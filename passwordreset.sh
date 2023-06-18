@@ -78,47 +78,47 @@ server_type=""
 for a in `seq 1 4`;
 do
 
-	if [[ $a == "3" ]];
-	then
+        if [[ $a == "3" ]];
+        then
 
-	echo "Too many ambigious inputs. Stopping script ..."
-	sleep 2
-	exit 0
+        echo "Too many ambigious inputs. Stopping script ..."
+        sleep 2
+        exit 0
 
-	elif [[ $server_name == *"vps"* ]];
-	then
+        elif [[ $server_name == *"vps"* ]];
+        then
 
-	server_type="VPS"
-	break
+        server_type="VPS"
+        break
 
-	elif [[ $server_name == *"ns"* ]];
-	then
+        elif [[ $server_name == *"ns"* ]];
+        then
 
-	server_type="Dedicated Server"
-	break
+        server_type="Dedicated Server"
+        break
 
-	else
+        else
 
-	echo "Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
-	read server_type
+        echo "Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
+        read server_type
 
-		if [[ $server_type == "V" ]];
-		then
+                if [[ $server_type == "V" ]];
+                then
 
-		server_type="VPS"
-		break
+                server_type="VPS"
+                break
 
-		elif [[ $server_type == "D" ]];
-		then
+                elif [[ $server_type == "D" ]];
+                then
 
-		server_type="Dedicated Server"
-		break
+                server_type="Dedicated Server"
+                break
 
-		else
-		continue
+                else
+                continue
 
-		fi
-	fi
+                fi
+        fi
 
 
 done
@@ -158,11 +158,11 @@ then
             part_size=$(lsblk -l /dev/$vps_partitions | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 | tr -cd '[0-9..]')
 
             if [[ $part_size > $biggest_prt_size ]];
-            then 
-                    
+            then
+
                     biggest_prt_size=$part_size
-                    biggest_prt=$partitions    
-                    
+                    biggest_prt=$partitions
+
             fi
     done
 
@@ -170,10 +170,10 @@ then
             echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions ..."
             echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    
+
             mkdir -p /mnt/$partitions
             mount /dev/$partitions /mnt/$partitions
-            echo ""	
+            echo ""
             echo "MOUNTED!"
             echo ""
             sleep 1
@@ -191,7 +191,7 @@ then
     for partitions in $(echo $pot_part);
     do
 
-    mntpnt=$(tune2fs -l /dev/$partitions | grep 'mounted' | cut -d ":" -f 2)
+    mntpnt=$(tune2fs -l /dev/$partitions | grep 'mounted' | cut -d ":" -f 2 )
 
 
         if [[ $(echo $mntpnt) == "/" ]] || [[ $(echo $mntpnt) == *"/mnt"* ]];
@@ -201,10 +201,10 @@ then
             echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions ..."
             echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    
+
             mkdir -p /mnt/$partitions
             mount /dev/$partitions /mnt/$partitions
-            echo ""	
+            echo ""
             echo "MOUNTED!"
             echo ""
             sleep 1
@@ -223,35 +223,35 @@ else
         #Main partition detection failure
 
         echo "                                          FAILURE                                        "
-		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-		echo "|                                                                                       |"
-		echo "|  Unfortunately, we could not detect the main partition.                               |"
-		echo "|  Please have a look at the partition list down below and determine which one it is.   |"
-  		echo "|                                                                                       |"
-  		echo "|  Once you have located the main partition, enter it in the prompt down below.         |"
-		echo "|                                                                                       |"
-		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                echo "|                                                                                       |"
+                echo "|  Unfortunately, we could not detect the main partition.                               |"
+                echo "|  Please have a look at the partition list down below and determine which one it is.   |"
+                echo "|                                                                                       |"
+                echo "|  Once you have located the main partition, enter it in the prompt down below.         |"
+                echo "|                                                                                       |"
+                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-		
-		lsblk
-		sleep 2
+
+                lsblk
+                sleep 2
         echo ""
         echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-		echo "Please type in the partition name:"
+                echo "Please type in the partition name:"
         read $partitions
 
         echo ""
         echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         echo "Main partition detected! Mounting /dev/$partitions to /mnt/$partitions ..."
         echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    
+
         mkdir -p /mnt/$partitions
         mount /dev/$partitions /mnt/$partitions
-        echo ""	
+        echo ""
         echo "MOUNTED!"
         echo ""
         sleep 1
-		
+
 
 fi
 
@@ -273,48 +273,48 @@ for attempt in `seq 1 3`;
 do
 
 #Checks whether the typed in username is in the /etc/passwd file
-	username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
+        username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
 
-	if [ "$username" == "$username_found" ];
-	then
+        if [ "$username" == "$username_found" ];
+        then
 
-		echo ""
-		echo "Thank you!"
-		break 2
+                echo ""
+                echo "Thank you!"
+                break 2
 
-	elif [ "$attempt" == "3" ];
-	then
+        elif [ "$attempt" == "3" ];
+        then
 
-		echo "                                          FAILURE                                        "
-		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-		echo "|                                                                                       |"
-		echo "|  We could not identify a user account with the username: $username                    |"
-		echo "|  Please make sure to find the username in your records or in the                      |"
-		echo "|  initial VPS installation email.                                                      |"
-  		echo "|                                                                                       |"
-  		echo "|  For further assistance please contact the OVHcloud technical support team.           |"
-		echo "|                                                                                       |"
-		echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                echo "                                          FAILURE                                        "
+                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                echo "|                                                                                       |"
+                echo "|  We could not identify a user account with the username: $username                    |"
+                echo "|  Please make sure to find the username in your records or in the                      |"
+                echo "|  initial VPS installation email.                                                      |"
+                echo "|                                                                                       |"
+                echo "|  For further assistance please contact the OVHcloud technical support team.           |"
+                echo "|                                                                                       |"
+                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-		#Unmounting the main partition from the mount point
-		echo "Unmounting /mnt/"$partitions" ..."
-		sleep 2
-		umount /mnt/$partitions
-		
-		#Stopping the script
-		exit 1
+                #Unmounting the main partition from the mount point
+                echo "Unmounting /mnt/"$partitions" ..."
+                sleep 2
+                umount /mnt/$partitions
 
-	else
+                #Stopping the script
+                exit 1
 
-		echo ""
-		echo "The username could not be found!"
-		
-		#Outputs the amount of attempts that are left
-		echo $(( 3 - $attempt ))" attempts left"
-		echo "Please type in your username:"
-		read username
+        else
 
-	fi
+                echo ""
+                echo "The username could not be found!"
+
+                #Outputs the amount of attempts that are left
+                echo $(( 3 - $attempt ))" attempts left"
+                echo "Please type in your username:"
+                read username
+
+        fi
 
 done
 
@@ -353,5 +353,3 @@ echo "|  You can now reboot your server from hard drive in the OVHcloud control 
 echo "|  If you need further assistance feel free to contact the OVHcloud technical support.  |"
 echo "|                                                                                       |"
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
-
