@@ -188,14 +188,6 @@ then
     pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.0-9]')
     dsk_rslts=$( echo $pot_part | wc -l )
 
-    echo ""
-    echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    echo "|                                                                 |"
-    echo "|  Here are the partitions that potentially store your main OS:   |"
-    echo "|  $pot_part                                                      |"
-    echo "|                                                                 |"
-    echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
     for partitions in $(echo $pot_part);
     do
 
