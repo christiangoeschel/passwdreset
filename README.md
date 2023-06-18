@@ -1,4 +1,4 @@
-<img src="https://github.com/bysecurety/passwdreset/blob/main/OVHcloudVPSpasswdreset.jpg">
+<img src="https://github.com/bysecurety/passwdreset/blob/main/passwdreset.png">
 
 # Changing the user password of an OVHcloud server if you have lost it
 </br>
