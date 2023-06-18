@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-#Password reset Script for the following issue
-#https://help.ovhcloud.com/csm/en-ca-vps-root-password?id=kb_article_view&sysparm_article=KB0047679#changing-the-password-if-you-have-lost-it
+#Password reset script to automate the main partition identification and mounting
+#for the password update/reset
+#
 #Author: Christian Goeschel Ndjomouo
 #Version:1.1
 
@@ -69,7 +70,7 @@ fi
 
 
 
-ip=$(ip -o a | grep -E 'ens3.*inet|eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d 't' -f 2 | cut -c 2-)
+ip=$(ip -o a | grep -E 'ens3.*inet|eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d ' ' -f 7)
 server_name=$(dig -x $ip | grep -E 'ns|vps' | grep -E 'PTR' | cut -d 'R' -f 2)
 server_type=""
 
