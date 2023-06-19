@@ -155,7 +155,7 @@ then
     for partitions in $(echo $pot_part);
     do
 
-            part_size=$(lsblk -l /dev/$vps_partitions | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 | tr -cd '[0-9..]')
+            part_size=$(lsblk -l /dev/$partitions | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 | tr -cd '[0-9..]')
 
             if [[ $part_size > $biggest_prt_size ]];
             then
