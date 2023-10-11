@@ -99,7 +99,7 @@ do
 
         else
 
-        echo "Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
+        echo -e "\nPlease indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character:"
         read server_type
 
                 if [[ $server_type == "V" ]];
