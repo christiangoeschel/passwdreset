@@ -65,13 +65,13 @@ do
         sleep 2
         exit 0
 
-        elif [ $server_name == *"vps"* ];
+        elif [ $server_name == "vps"* ];
         then
 
         server_type="V"
         break
 
-        elif [ $server_name == *"ns"* ];
+        elif [ $server_name == "ns"* ];
         then
 
         server_type="D"
