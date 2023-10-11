@@ -49,7 +49,7 @@ fi
 
 #   Server type identification
 #   Here we will identify the server type via the hostname which we will receive from the 'uname -n' command
-server_name=$(uname -n)
+server_name=$(uname -n | grep -Eo "(^vps|^ns)")
 server_type=""
 
 #   The for loop runs 3 times and gives the user 3 chances to type in the server type manually.
@@ -65,13 +65,13 @@ do
         sleep 2
         exit 0
 
-        elif [ $server_name == "vps"* ];
+        elif [ $server_name == "vps" ];
         then
 
         server_type="V"
         break
 
-        elif [ $server_name == "ns"* ];
+        elif [ $server_name == "ns" ];
         then
 
         server_type="D"
