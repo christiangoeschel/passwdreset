@@ -141,7 +141,7 @@ then
             #   Mounting the main partition to the mount point directory
             mount /dev/$partition /mnt/$partition
             
-            echo -e "\nMain partition $partition has been mounted successfully !!!"
+            echo -e "\nMain partition /dev/$partition has been mounted successfully !!!"
             echo "Analyzing file system and determining root directory ..." 
             sleep 2
 
@@ -173,7 +173,7 @@ then
             #   Mounting the main partition to the mount point directory
             mount /dev/$partition /mnt/$partition
             
-            echo -e "\nMain partition $partition has been mounted successfully !!!"
+            echo -e "\nMain partition /dev/$partition has been mounted successfully !!!"
             echo "Analyzing file system and determining root directory ..." 
             sleep 2
             break
@@ -209,7 +209,7 @@ else
         #   Mounting the main partition to the mount point directory
         mount /dev/$partition /mnt/$partition
     
-        echo -e "\nMain partition $partition has been mounted successfully !!!"
+        echo -e "\nMain partition /dev/$partition has been mounted successfully !!!"
         echo "Analyzing file system and determining root directory ..." 
         sleep 2
 
@@ -237,7 +237,7 @@ do
         if [ "$username" == "$username_found" ];
         then
 
-                echo "[ SUCCESS ]"
+                echo -e "\n[ SUCCESS ]"
                 break 2
 
         elif [ "$attempt" == "3" ];
@@ -263,8 +263,8 @@ do
                 exit 1
 
         else
-                echo "[ ERROR ]"
-                echo "The username could not be found!"
+                echo -e "\n[ ERROR ]"
+                echo "The username "$username" could not be found!"
 
                 #Outputs the amount of attempts that are left
                 echo $(( 3 - $attempt ))" attempts left"
@@ -284,7 +284,7 @@ sleep 3
 #
 #   This pattern template will filter out the root directory in the main partition
 chroot_dir="$(find /mnt/$partition/ -type f -name 'passwd' | grep -E 'etc/passwd$' | sed 's/etc\/passwd//')"
-#   Chanhing the root directory
+#   Changing the root directory
 echo "Changing the root directory to $chroot_dir"
 #   Evoking the passwd binary with the username variable as argument in the new root directory
 chroot $chroot_dir passwd $username
