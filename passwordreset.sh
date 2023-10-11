@@ -255,7 +255,7 @@ do
                 echo "The username "$username" could not be found!"
 
                 #    Outputs the amount of attempts that are left
-                echo $(( 3 - $attempt ))" attempts left"
+                echo $(( 3 - $attempt ))" attempt(s) left"
                 echo "Please type in your username: "
                 read username
         fi
