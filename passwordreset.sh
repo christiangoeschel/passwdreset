@@ -270,9 +270,7 @@ do
                 echo $(( 3 - $attempt ))" attempts left"
                 echo "Please type in your username:"
                 read username
-
         fi
-
 done
 
 
@@ -281,7 +279,6 @@ echo ""
 echo "You will now be asked to enter a new password and re-enter it."
 echo -e "Please make sure to remember your password.\n"
 sleep 3
-
 
 #   Changing root directory to the main partition
 #
@@ -294,16 +291,9 @@ chroot $chroot_dir passwd $username
 echo ""
 sleep 1
 
-
 #   Unmounting the main partition from the mount point
 echo "Unmounting /mnt/"$partition" ..."
 sleep 1
 umount /mnt/$partition
 
-#############################################
-#   Final success message
-echo -e "!!! [ SUCCESS ] !!!\n"
-echo -e "YOUR PASSWORD FOR $username HAS BEEN UPDATED !\n"
-echo "You can now reboot your server from the usual disk in the OVHcloud control panel."       
-echo "If you need further assistance feel free to contact the OVHcloud technical support."
 
