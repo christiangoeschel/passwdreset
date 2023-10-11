@@ -80,7 +80,7 @@ do
         #   This block would be executed if the 'uname -n' output was not sufficient to determine the server type
         else
 
-        echo -e "\nPlease indicated whether your server is a VPS ( V ) \nor a Dedicated server ( D ) with the respective character:"
+        echo -e "\n[ Please indicated whether your server is a VPS ( V ) or a Dedicated server ( D ) with the respective character ]:"
         read server_type
 
                 #   User input was V or v so the server type is set to V for (VPS)
@@ -193,7 +193,7 @@ else
         #Main partition detection failure message
         echo -e "\n[ ERROR ]"
         echo "Unfortunately, we could not detect the main partition."
-        echo "Please have a look at the partition list down below and determine which one it is."
+        echo "[ Please have a look at the partition list down below and determine which one it is ]"
         echo -e "\nOnce you have located the main partition, enter it in the prompt down below.\n"
 
         #   Printing the block devices detected by the kernel
@@ -220,9 +220,9 @@ fi
 #
 #   The customer is asked to type in their username in order to change the
 #   correct user accounts password
-echo -e "\n\nPlease type in the username for which you want to change the password\n"
+echo -e "\n\n[ Please type in the username for which you want to change the password ]\n"
 echo "It is NOT 'root' it is the username you have received after your last installation via email."
-echo "Type in username:"
+echo "Type in username: "
 read username
 
 
@@ -268,7 +268,7 @@ do
 
                 #Outputs the amount of attempts that are left
                 echo $(( 3 - $attempt ))" attempts left"
-                echo "Please type in your username:"
+                echo "Please type in your username: "
                 read username
         fi
 done
@@ -276,7 +276,7 @@ done
 
 #   Password change announcement
 echo ""
-echo "You will now be asked to enter a new password and re-enter it."
+echo "[ You will now be asked to enter a new password and re-enter it ]"
 echo -e "Please make sure to remember your password.\n"
 sleep 3
 
