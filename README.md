@@ -29,7 +29,7 @@ Once you have received the credentials, login to your server and enter this one 
 Command:
 </br></br>
 
-` wget https://raw.githubusercontent.com/bysecurety/passwdreset/main/passwordreset.sh && chmod +x passwordreset.sh && source passwordreset.sh `
+` wget https://raw.githubusercontent.com/christiangoeschel/passwdreset/main/passwordreset.sh && chmod +x passwordreset.sh && source passwordreset.sh `
 </br>
 </br>
 Hit enter and let the script do the rest.
