@@ -10,20 +10,17 @@
 # [ Description ]:      This program takes a random IPv4 address, subnet mask in DDN or CIDR as input.
 #                       
 #                       
-#              
-
-#   Start of script output
+#   
 echo ""
 echo "+------------------------------------------------------------------------------------+"
 echo "|                                                                                    |"
 echo "|  This program will handle the identification and mounting of your main partition   |"
-echo "|  to then change the root directory in order to help you reset your lost password.  |"
+echo "|  to then change the root directory in order to reset your lost password.           |"
 echo "|                                                                                    |"
 echo "+------------------------------------------------------------------------------------+"
 echo ""
 echo "Starting program now ..."
 sleep 2
-
 
 #   Tune2fs package availability check, this tool will help to identify the main partition
 t2fs_path=$(which tune2fs)  # Checking whether 'tune2fs' is found in any of the in the $PATH variable specified directories
@@ -44,8 +41,6 @@ else
     sleep 1
 
 fi
-
-
 
 #   Server type identification
 #   Here we will identify the server type via the hostname which we will receive from the 'uname -n' command
@@ -104,7 +99,6 @@ do
                 fi
         fi
 done
-
 
 #   This flow control depends on the server type
 #
@@ -212,9 +206,7 @@ else
         echo -e "\nMain partition /dev/$partition has been mounted successfully !!!"
         echo "Analyzing file system and determining root directory ..." 
         sleep 2
-
 fi
-
 
 #   Username validation
 #
@@ -243,41 +235,36 @@ do
         elif [ "$attempt" == "3" ];
         then
 
-                echo "                                          FAILURE                                        "
-                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-                echo "|                                                                                       |"
-                echo "|  We could not identify a user account with the username: $username                    |"
-                echo "|  Please make sure to find the username in your records or in the                      |"
-                echo "|  initial VPS installation email.                                                      |"
-                echo "|                                                                                       |"
-                echo "|  For further assistance please contact the OVHcloud technical support team.           |"
-                echo "|                                                                                       |"
-                echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                echo -e "\n[ FATAL ERROR ]"
+                echo "We could not identify an user account with for: $username "
+                echo "Please make sure to find the username in your records or in the"
+                echo "your last VPS installation email."
+                echo "For further assistance please contact the OVHcloud technical support team."
 
-                #Unmounting the main partition from the mount point
-                echo "Unmounting /mnt/"$partition" ..."
-                sleep 2
+                #    Unmounting the main partition from the mount point
+                echo -e "\nUnmounting /mnt/"$partition" ..."
+                sleep 1
                 umount /mnt/$partition
 
-                #Stopping the script
+                #    Stopping the script
+                echo -e "\n[ EXITING PROGRAM ... ]"
                 exit 1
 
         else
                 echo -e "\n[ ERROR ]"
                 echo "The username "$username" could not be found!"
 
-                #Outputs the amount of attempts that are left
+                #    Outputs the amount of attempts that are left
                 echo $(( 3 - $attempt ))" attempts left"
                 echo "Please type in your username: "
                 read username
         fi
 done
 
-
-#   Password change announcement
+#   Password change message
 echo ""
-echo "[ You will now be asked to enter a new password and re-enter it ]"
-echo -e "Please make sure to remember your password.\n"
+echo "[ You will now be asked to enter a new password and to re-enter it ]"
+echo -e "Please make sure to remember your password !\n"
 sleep 3
 
 #   Changing root directory to the main partition
@@ -295,5 +282,3 @@ sleep 1
 echo "Unmounting /mnt/"$partition" ..."
 sleep 1
 umount /mnt/$partition
-
-
