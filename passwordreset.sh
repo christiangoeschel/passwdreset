@@ -3,11 +3,13 @@
 # [ Name ]:             Password Reset Automation 
 # [ Version ]:          1.2
 # [ Author ]:           Christian Goeschel Ndjomouo
-# [ Created on ]:       Sep 17 2023
+# [ Created on ]:       May 13 2023
 # [ Last updated on ]:  Oct 11 2023
-# [ Tested on ]:        All Linux distribution images offered by OVHcloud ( VPS and Dedicated server )
+# [ Tested on ]:        All Linux images offered by OVHcloud ( VPS and Dedicated server )
 #
-# [ Description ]:      This program takes a random IPv4 address, subnet mask in DDN or CIDR as input.
+# [ Description ]:      This program will take care of the main partition detection, mount point creation and final mounting. 
+#                       It will also detect the root directory of your main partition to make the password reset possible. 
+#                       Everything fully automated.
 #                       
 #                       
 #   
