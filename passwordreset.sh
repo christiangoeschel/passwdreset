@@ -247,7 +247,7 @@ do
                 umount /mnt/$partition
 
                 #    Stopping the script
-                echo -e "\n[ EXITING PROGRAM ... ]"
+                echo -e "\n[ EXITING PROGRAM ... ]\n"
                 exit 1
 
         else
@@ -282,3 +282,4 @@ sleep 1
 echo "Unmounting /mnt/"$partition" ..."
 sleep 1
 umount /mnt/$partition
+echo -e "\n[ TERMINATING PROGRAM ... ]\n"
