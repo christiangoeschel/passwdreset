@@ -42,28 +42,6 @@ sleep 1
 
 fi
 
-##########################################################################################
-#Dnsutils (dig) package availability check, this tool will help to identify the server type
-
-digutil=$(which dig)
-echo ""
-echo "Checking for dnsutils (dig)..."
-sleep 1
-
-if [[ $digutil == *"dig"* ]];
-then
-
-echo ""
-echo "dnsutils (dig) already installed!"
-
-else
-
-echo ""
-echo "Installing dnsutil (dig)..."
-apt install dnsutils -y
-sleep 1
-
-fi
 
 #############################################
 #Server type identification
@@ -71,7 +49,7 @@ fi
 
 
 ip=$(ip -o a | grep -E 'ens3.*inet|eth0.*inet' | grep -v 'inet6' | cut -d '/' -f 1 | cut -d ' ' -f 7)
-server_name=$(dig -x $ip | grep -E 'ns|vps' | grep -E 'PTR' | cut -d 'R' -f 2)
+server_name=$(uname -n)
 server_type=""
 
 
@@ -119,24 +97,7 @@ do
 
                 fi
         fi
-
-
 done
-
-
-#############################################
-#Server information
-
-
-echo ""
-echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "|                                                           |"
-echo "|  Server Name: $server_name                                |"
-echo "|  IPv4 Address: $ip                                        |"
-echo "|  Server Type: $server_type                                |"
-echo "|                                                           |"
-echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
 
 #############################################
 #Server type dependent if statement
@@ -273,7 +234,8 @@ for attempt in `seq 1 3`;
 do
 
 #Checks whether the typed in username is in the /etc/passwd file
-        username_found="$(cat /mnt/$partitions/etc/passwd | grep $username | cut -d ":" -f 1)"
+        passwd_file_dir="$(find /mnt/$partitions/ -type f -name 'passwd' | grep -E 'etc/passwd$')"
+        username_found="$(cat $passwd_file_dir | grep $username | cut -d ':' -f 1)"
 
         if [ "$username" == "$username_found" ];
         then
@@ -331,7 +293,7 @@ sleep 1
 
 #############################################
 #Chroot into mount point
-chroot /mnt/$partitions/ passwd $username
+chroot /mnt/$partitions passwd $username
 echo ""
 echo ""
 sleep 1
