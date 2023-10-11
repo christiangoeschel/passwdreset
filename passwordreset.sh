@@ -106,31 +106,27 @@ done
 #   Code block will be executed if the server is a dedicated server
 if [ $server_type == "V" ];
 then
-
-    #############################################
-    #VPS Partition detection
-
+    #    VPS Partition detection 
+    #    The biggest partition will finally be determined as the main partition
     biggest_prt_size=0
     biggest_prt=""
+    
+    #    This variable will extract all the potential partitions from lsblk
+    potential_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | grep 'G' | cut -d ' ' -f 1 | tr -cd '[a-zA-Z.\n.1-9]')
 
-    pot_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | grep 'G' | cut -d ' ' -f 1 | tr -cd '[a-zA-Z.\n.1-9]')
-
-    for partition in $(echo $pot_part);
+    #    The for loop will run through all the partitions listed in the potential_part variable
+    for partition in $(echo $potential_part);
     do
-
             part_size=$(lsblk -l /dev/$partition | grep "G" | cut -d "G" -f 1 | cut -d "0" -f 2 | tr -cd '[0-9..]')
 
             if [ $part_size > $biggest_prt_size ];
             then
-
                     biggest_prt_size=$part_size
                     biggest_prt=$partition
-
             fi
     done
-
+    #    Loop end
             echo -e "\nMain partition detected! \nMounting /dev/$partition to /mnt/$partition ..."
-
             #   Creating the mount point directory
             mkdir -p /mnt/$partition
             #   Mounting the main partition to the mount point directory
@@ -142,20 +138,18 @@ then
 
 #   Code block will be executed if the server is a dedicated server
 elif [[ $server_type == "D" ]];
-then
-
-    
-    #   Dedicated server partition detection
-
-    #  This variable 
+then  
+    #    Dedicated server partition detection
+    #    The partition lastly mounted at "/" is the main partition
+    #    This variable will extract all the potential partitions from lsblk
     potential_part=$(lsblk | grep -E 'sd|nv' | grep 'part' | cut -d ' ' -f 1 | tr -cd '[.a-zA-Z.\n.0-9]')
     
-    #   The for loop will run through all the partitions listed in the potential_part variable
+    #    The for loop will run through all the partitions listed in the potential_part variable
     for partition in $(echo $potential_part);
     do
 
-    #   tune2fs will print the partitions information and it's last mount point
-    #   the partition that was mounted at "/" will qualify as the main partition
+    #    tune2fs will print the partitions information and it's last mount point
+    #    the partition that was mounted at "/" will qualify as the main partition
     mounted_at=$(tune2fs -l /dev/$partition | grep 'mounted' | cut -d ":" -f 2 )
 
         #   If the currently selected partition's last mount point was "/" 
