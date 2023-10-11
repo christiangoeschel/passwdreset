@@ -8,8 +8,7 @@
 # [ Tested on ]:        All Linux images offered by OVHcloud ( VPS and Dedicated server )
 #
 # [ Description ]:      This program will take care of the main partition detection, mount point creation and final mounting. 
-#                       It will also detect the root directory of your main partition to make the password reset possible. 
-#                       Everything fully automated.
+#                       It will also detect the root directory of the customers main partition to make the password reset possible. 
 #                       
 #                       
 #   
