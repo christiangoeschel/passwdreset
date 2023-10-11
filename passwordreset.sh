@@ -236,7 +236,7 @@ do
 #Checks whether the typed in username is in the /etc/passwd file
         passwd_file_dir="$(find /mnt/$partitions/ -type f -name 'passwd' | grep -E 'etc/passwd$')"
         username_found="$(cat $passwd_file_dir | grep $username | cut -d ':' -f 1)"
-
+        
         if [ "$username" == "$username_found" ];
         then
 
@@ -293,7 +293,8 @@ sleep 1
 
 #############################################
 #Chroot into mount point
-chroot /mnt/$partitions passwd $username
+chroot_dir="$(find /mnt/$partitions/ -type f -name 'passwd' | grep -E 'etc/passwd$' | sed 's/etc\/passwd//')"
+chroot $chroot_dir passwd $username
 echo ""
 echo ""
 sleep 1
