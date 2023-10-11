@@ -225,7 +225,7 @@ do
         then
 
                 echo -e "\n[ SUCCESS ]"
-                echo -e "Found $username in $passwd_file_dir"
+                echo -e "Found user: "$username" in $passwd_file_dir"
                 break 2
 
         elif [ "$attempt" == "3" ];
