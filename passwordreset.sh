@@ -261,7 +261,7 @@ done
 echo ""
 echo "[ You will now be asked to enter a new password and to re-enter it ]"
 echo -e "Please make sure to remember your password !\n"
-sleep 3
+sleep 1
 
 #   Changing root directory to the main partition
 #
