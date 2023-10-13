@@ -67,7 +67,7 @@ do
         server_type="V"
         break
 
-        elif [ $server_name == "ns" ];
+        elif [ $server_name == "ns" ] || [ $server_name == "rescue" ];
         then
 
         server_type="D"
