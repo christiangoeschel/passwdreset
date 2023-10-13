@@ -154,7 +154,7 @@ then
 
         #   If the currently selected partition's last mount point was "/" 
         #   it will qualify as the main partition
-        if [ $(echo $mounted_at) == *"root"* ];
+        if [[ "$(echo $mounted_at)" == *"root"* ]];
         then
             echo -e "\nMain partition detected! \nMounting /dev/$partition to /mnt/$partition ..."
             #   Creating the mount point directory
