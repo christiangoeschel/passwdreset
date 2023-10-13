@@ -150,11 +150,11 @@ then
 
     #    tune2fs will print the partitions information and it's last mount point
     #    the partition that was mounted at "/" will qualify as the main partition
-    mounted_at=$(tune2fs -l /dev/$partition | grep 'mounted' | cut -d ":" -f 2 )
+    mounted_at=$(tune2fs -l /dev/$partition | grep name | cut -d ":" -f 2 )
 
         #   If the currently selected partition's last mount point was "/" 
         #   it will qualify as the main partition
-        if [ $(echo $mounted_at) == "/" ] || [ $(echo $mounted_at) == *"/mnt"* ];
+        if [ $(echo $mounted_at) == *"root"* ];
         then
             echo -e "\nMain partition detected! \nMounting /dev/$partition to /mnt/$partition ..."
             #   Creating the mount point directory
