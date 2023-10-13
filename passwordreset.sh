@@ -45,7 +45,7 @@ fi
 
 #   Server type identification
 #   Here we will identify the server type via the hostname which we will receive from the 'uname -n' command
-server_name=$(uname -n | grep -Eo "(^vps|^ns)")
+server_name=$(uname -n | grep -Eo "(^vps|^ns|^rescue)")
 server_type=""
 
 #   The for loop runs 3 times and gives the user 3 chances to type in the server type manually.
