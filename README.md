@@ -1,5 +1,9 @@
 <img src="https://github.com/bysecurety/passwdreset/blob/main/passwdreset.png">
 
+![Static Badge](https://img.shields.io/badge/Bash-5.2.15-brightgreen)
+![Static Badge](https://img.shields.io/badge/Debian-PASS-brightgreen)
+![Static Badge](https://img.shields.io/badge/Ubuntu-PASS-brightgreen)
+
 # Changing the user password of an OVHcloud server if you have lost it
 </br>
 </br>
